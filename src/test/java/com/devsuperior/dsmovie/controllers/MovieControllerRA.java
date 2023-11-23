@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 public class MovieControllerRA {
 	
 	
-	
+	private String moviesTitle;
 	
 	
 	@BeforeEach
@@ -20,7 +20,9 @@ public class MovieControllerRA {
 	 baseURI = "http://localhost:8080";
 	 
 	 
+	 moviesTitle = "Harry Potter e as Relíquias da Morte - Parte 1";
 	 
+	 	 
 	}
 	@Test
 	public void findAllShouldReturnOkWhenMovieNoArgumentsGiven() {
@@ -33,6 +35,18 @@ public class MovieControllerRA {
 		.body("numberOfElements", is(20));
 		
   }
+	@Test
+	public void findAllShouldReturnPagedMoviesWhenMovieTitleParamIsNotEmpty() {	
+		given()
+		.get("/movies?title={moviesTitle}", moviesTitle)
+	.then()
+		.statusCode(200)
+		.body("content.id[0]", is(19))
+		.body("content.title[0]", equalTo("Harry Potter e as Relíquias da Morte - Parte 1"))
+		.body("content.score[0]", is(0.0F))
+		.body("content.count[0]", is(0))
+		.body("content.image[0]", equalTo("https://www.themoviedb.org/t/p/w533_and_h300_bestv2/vcrgU0KaNj5mKUCIQSUdiQwTE9y.jpg"));
+	}
 	
 	
 }

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 @SuppressWarnings("unused")
 public class MovieControllerRA {
 	
-	
+	private Long existingMovieId;
 	private String moviesTitle;
 	
 	
@@ -19,6 +19,7 @@ public class MovieControllerRA {
 	 public void setUp(){
 	 baseURI = "http://localhost:8080";
 	 
+	 existingMovieId = 11L;
 	 
 	 moviesTitle = "Harry Potter e as Relíquias da Morte - Parte 1";
 	 
@@ -47,6 +48,21 @@ public class MovieControllerRA {
 		.body("content.count[0]", is(0))
 		.body("content.image[0]", equalTo("https://www.themoviedb.org/t/p/w533_and_h300_bestv2/vcrgU0KaNj5mKUCIQSUdiQwTE9y.jpg"));
 	}
+	
+	@Test
+	public void findByIdShouldReturnMovieWhenIdExists() {	
+		existingMovieId = 11L;
+		
+		given()
+			.get("/movies/{id}", existingMovieId)
+		.then()
+			.statusCode(200)
+			.body("id", is(11))
+			.body("title", equalTo("Star Wars: A Guerra dos Clones"))
+			.body("image", equalTo("https://www.themoviedb.org/t/p/w533_and_h300_bestv2/uK15I3sGd8AudO9z6J6vi0HH1UU.jpg"))
+			.body("score", is(0.0F));
+		
+  }
 	
 	
 }

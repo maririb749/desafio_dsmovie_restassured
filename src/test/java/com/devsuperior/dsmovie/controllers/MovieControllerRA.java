@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 @SuppressWarnings("unused")
 public class MovieControllerRA {
 	
-	private Long existingMovieId;
+	private Long existingMovieId, nonExistingMovieId;
 	private String moviesTitle;
 	
 	
@@ -20,6 +20,7 @@ public class MovieControllerRA {
 	 baseURI = "http://localhost:8080";
 	 
 	 existingMovieId = 11L;
+	 nonExistingMovieId = 100L;
 	 
 	 moviesTitle = "Harry Potter e as Relíquias da Morte - Parte 1";
 	 
@@ -63,6 +64,18 @@ public class MovieControllerRA {
 			.body("score", is(0.0F));
 		
   }
+	@Test
+	public void findByIdShouldReturnNotFoundWhenIdDoesNotExist() {	
+		nonExistingMovieId = 100L;
+		
+		given()
+			.get("/movies/{id}", nonExistingMovieId)
+		.then()
+			.statusCode(404)
+			.body("status", is(404))
+			.body("error", equalTo("Recurso não encontrado"))
+			.body("path", equalTo("/movies/100"));
+   }
 	
 	
 }

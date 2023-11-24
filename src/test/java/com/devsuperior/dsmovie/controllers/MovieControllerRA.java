@@ -24,7 +24,7 @@ public class MovieControllerRA {
 	
 	private Long existingMovieId, nonExistingMovieId;
 	
-	private String adminToken, clientToken;
+	private String adminToken, clientToken, invalidToken;
 	
 	private String moviesTitle;
 	
@@ -46,6 +46,7 @@ public class MovieControllerRA {
 	 
 	adminToken = TokenUtil.obtainAccessToken(adminUsername, adminPassword);
 	clientToken = TokenUtil.obtainAccessToken(clientusername, adminPassword);
+	invalidToken = adminToken + "xpto";
 	 
 	 moviesTitle = "Harry Potter e as Relíquias da Morte - Parte 1";
 	 
@@ -143,6 +144,22 @@ public class MovieControllerRA {
 		    .post("/movies")
 		.then()
 		    .statusCode(403);
+	}
+	@Test
+	public void insertShouldReturnUnauthorizedWhenInvalidToken() throws Exception {
+		
+      JSONObject newMovie = new JSONObject(postMovieInstance);
+		
+		given()
+			.header("Content-type", "application/json")
+		    .header("Authorization", "Bearer " + invalidToken)
+		    .body(newMovie.toString())
+		    .contentType(ContentType.JSON)
+		    .accept(ContentType.JSON)
+		.when()
+		    .post("/movies")
+		.then()
+		    .statusCode(401);
 	}
 	
 	

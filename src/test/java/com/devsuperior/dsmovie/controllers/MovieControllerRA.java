@@ -20,11 +20,11 @@ import io.restassured.http.ContentType;
 @SuppressWarnings("unused")
 public class MovieControllerRA {
 	
-	private String adminUsername, adminPassword;
+	private String adminUsername, adminPassword, clientusername, clientpassword;
 	
 	private Long existingMovieId, nonExistingMovieId;
 	
-	private String adminToken;
+	private String adminToken, clientToken;
 	
 	private String moviesTitle;
 	
@@ -38,11 +38,14 @@ public class MovieControllerRA {
 	 
 	 adminUsername = "maria@gmail.com";
 	 adminPassword = "123456";
+	 clientusername = "alex@gmail.com";
+	 clientpassword = "123456";
 	 
 	 existingMovieId = 11L;
 	 nonExistingMovieId = 100L;
 	 
 	adminToken = TokenUtil.obtainAccessToken(adminUsername, adminPassword);
+	clientToken = TokenUtil.obtainAccessToken(clientusername, adminPassword);
 	 
 	 moviesTitle = "Harry Potter e as Relíquias da Morte - Parte 1";
 	 
@@ -115,7 +118,7 @@ public class MovieControllerRA {
 		given()
 			.header("Content-type", "application/json")
 			.header("Authorization", "Bearer " + adminToken)
-			.body(postMovieInstance)
+			.body(newMovie.toString())
 			.contentType(ContentType.JSON)
 			.accept(ContentType.JSON)
 		.when()
@@ -125,6 +128,22 @@ public class MovieControllerRA {
 			.body("fieldName", nullValue())
 			.body("errors.message[0]", equalTo( "Tamanho deve ser entre 5 e 80 caracteres"));
 	}
-
+	@Test
+	public void insertShouldReturnForbiddenWhenClientLogged() throws Exception {
 		
+		JSONObject newMovie = new JSONObject(postMovieInstance);
+		
+		given()
+			.header("Content-type", "application/json")
+		    .header("Authorization", "Bearer " + clientToken)
+		    .body(newMovie.toString())
+		    .contentType(ContentType.JSON)
+		    .accept(ContentType.JSON)
+		.when()
+		    .post("/movies")
+		.then()
+		    .statusCode(403);
+	}
+	
+	
 }

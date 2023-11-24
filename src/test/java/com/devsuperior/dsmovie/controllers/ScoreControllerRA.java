@@ -78,6 +78,27 @@ public class ScoreControllerRA {
 	   .body("status", is(422));
 	}
 
+	@Test
+	public void saveScoreShouldReturnUnprocessableEntityWhenScoreIsLessThanZero() throws Exception {
+		
+		putMovieInstance.put("score", -1.0);
+		putMovieInstance.put("movieId", 2L);
+			JSONObject score = new JSONObject(putMovieInstance);
+		 
+		
+		 given()
+			.baseUri(baseURI)
+			.contentType(ContentType.JSON)
+			.accept(ContentType.JSON)
+			.body(score)
+			.when()
+			  .put("/scores")
+			  .then()
+			  .statusCode(422)
+			  .body("errors[0].fieldName", equalTo("score"))
+			  .body("errors[0].message", equalTo("Valor mínimo 0"))
+			  .body("status", is(422));
+	}
  }
 	
 	

@@ -1,0 +1,64 @@
+package com.devsuperior.dsmovie.controllers;
+
+import static io.restassured.RestAssured.*;
+import static io.restassured.matcher.RestAssuredMatchers.*;
+import static org.hamcrest.Matchers.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.JSONException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import io.restassured.http.ContentType;
+import net.minidev.json.JSONObject;
+
+public class ScoreControllerRA {
+	
+	private Long nonexistmovieId;
+	
+	private Map<String, Object> putMovieInstance;
+	
+	
+	@BeforeEach
+	 public void setUp() throws JSONException{
+	 baseURI = "http://localhost:8080";
+	 
+	 nonexistmovieId = 30L;
+	 
+	    putMovieInstance = new HashMap<>();
+		putMovieInstance.put("title", "O Espetacular Homem-Aranha 2: A Ameaça de Electro");
+		putMovieInstance.put("count", 0);
+		putMovieInstance.put("score", 0.0);
+		putMovieInstance.put("image", "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/u7SeO6Y42P7VCTWLhpnL96cyOqd.jpg");
+		
+	 
+	}
+	
+	@Test
+	public void saveScoreShouldReturnNotFoundWhenMovieIdDoesNotExist() throws Exception {
+		
+		JSONObject score = new JSONObject(putMovieInstance);
+		nonexistmovieId = 30L;
+		
+		 
+		given()
+		.baseUri(baseURI)
+		.contentType(ContentType.JSON)
+		.accept(ContentType.JSON)
+		.body(score)
+	.when()
+	    .put("/scores{id}", nonexistmovieId)
+	.then()
+		.statusCode(404);
+ }
+}
+		
+		
+	
+
+	
+	
+
+

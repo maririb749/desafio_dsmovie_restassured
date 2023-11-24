@@ -17,6 +17,7 @@ import com.devsuperior.dsmovie.tests.TokenUtil;
 
 import io.restassured.http.ContentType;
 
+
 @SuppressWarnings("unused")
 public class MovieControllerRA {
 	

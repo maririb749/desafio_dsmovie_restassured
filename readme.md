@@ -9,11 +9,9 @@ Este é um projeto de filmes e avaliações de filmes. A regra de negócio diz q
 
 ## Modelo conceitual:
 
-<div align= "justify">
+![ra](https://github.com/maririb749/desafio_dsmovie_restassured/assets/85500087/f322ecfd-e2a3-452a-95b1-f0eec8a25c77)
 
-![ra](https://github.com/maririb749/desafio_dsmovie_restassured/assets/85500087/840cc2e7-02c9-4d01-b1b4-059d03ad717a)
 
-</div> 
 
 ###
 
@@ -51,5 +49,11 @@ O desafio consiste em implementar os testes de API  utilizando o RestAssured. Os
     <li>saveScoreShouldReturnUnprocessableEntityWhenScoreIsLessThanZero</li>
  </ul>
 </ul>
+
+###
+
+## Competências avaliadas neste desafio:
+
+- Testes de API com RestAssured e Spring Boot.
 
 

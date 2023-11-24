@@ -9,11 +9,11 @@ Este é um projeto de filmes e avaliações de filmes. A regra de negócio diz q
 
 ## Modelo conceitual:
 
-<div align= "center">
+
 
 ![ra](https://github.com/maririb749/desafio_dsmovie_restassured/assets/85500087/840cc2e7-02c9-4d01-b1b4-059d03ad717a)
 
-</div> 
+
 
 ###
 

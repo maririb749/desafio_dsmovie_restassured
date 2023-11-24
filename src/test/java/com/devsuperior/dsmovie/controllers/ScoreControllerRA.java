@@ -2,6 +2,7 @@ package com.devsuperior.dsmovie.controllers;
 
 import static io.restassured.RestAssured.*;
 import static io.restassured.matcher.RestAssuredMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.*;
 
 import java.util.HashMap;
@@ -16,7 +17,8 @@ import net.minidev.json.JSONObject;
 
 public class ScoreControllerRA {
 	
-	private Long nonexistmovieId;
+	@SuppressWarnings("unused")
+	private Long nonexistmovieId, existingmovieId;
 	
 	private Map<String, Object> putMovieInstance;
 	
@@ -25,12 +27,13 @@ public class ScoreControllerRA {
 	 public void setUp() throws JSONException{
 	 baseURI = "http://localhost:8080";
 	 
-	 nonexistmovieId = 30L;
+		 existingmovieId = 2L;
+		 nonexistmovieId = 30L;
 	 
 	    putMovieInstance = new HashMap<>();
 		putMovieInstance.put("title", "O Espetacular Homem-Aranha 2: A Ameaça de Electro");
 		putMovieInstance.put("count", 0);
-		putMovieInstance.put("score", 0.0);
+		putMovieInstance.put("score", 0.0f);
 		putMovieInstance.put("image", "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/u7SeO6Y42P7VCTWLhpnL96cyOqd.jpg");
 		
 	 
@@ -41,6 +44,7 @@ public class ScoreControllerRA {
 		
 		JSONObject score = new JSONObject(putMovieInstance);
 		nonexistmovieId = 30L;
+		
 		
 		 
 		given()
@@ -53,7 +57,31 @@ public class ScoreControllerRA {
 	.then()
 		.statusCode(404);
  }
-}
+	
+	@Test
+	public void saveScoreShouldReturnUnprocessableEntityWhenMissingMovieId() throws Exception {
+	
+		 JSONObject score = new JSONObject(putMovieInstance);
+	     existingmovieId = 2L;
+		
+		given()
+		.baseUri(baseURI)
+		.contentType(ContentType.JSON)
+		.accept(ContentType.JSON)
+		.body(score)
+	.when()
+	   .put("/scores")
+	   .then()
+	   .statusCode(422)
+	   .body("errors[0].fieldName", equalTo("movieId"))
+	   .body("errors[0].message", equalTo("Campo requerido"))
+	   .body("status", is(422));
+	}
+
+ }
+	
+	
+
 		
 		
 	

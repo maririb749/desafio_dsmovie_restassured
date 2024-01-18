@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import com.devsuperior.dsmovie.entities.MovieEntity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -13,16 +14,21 @@ public class MovieDTO {
 
 	private static final DecimalFormat df = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.US));
 
+	@Schema(description = " Database generation movie ID")
 	private Long id;
 	
 	@NotBlank(message = "Campo requerido")
 	@Size(min = 5, max = 80, message = "Tamanho deve ser entre 5 e 80 caracteres")
+	@Schema(description = "Movie title")
 	private String title;
 	
+	@Schema(description = "Movie score")
 	private Double score;
 	
+	@Schema(description = "Movie integer")
 	private Integer count;
 	
+	@Schema(description = "Movie image")
 	private String image;
 
 	public MovieDTO(Long id, String title, Double score, Integer count, String image) {

@@ -101,16 +101,7 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.7</version>
 				<configuration>
-					<excludes>
-						<exclude>com/devsuperior/dsmovie/DsmovieApplication.class</exclude>
-						<exclude>com/devsuperior/dsmovie/config/**</exclude>
-						<exclude>com/devsuperior/dsmovie/entities/**</exclude>
-						<exclude>com/devsuperior/dsmovie/dto/**</exclude>
-						<exclude>com/devsuperior/dsmovie/controllers/**</exclude>
-						<exclude>com/devsuperior/dsmovie/controllers/handlers/**</exclude>
-						<exclude>com/devsuperior/dsmovie/services/exceptions/**</exclude>
-						<exclude>com/devsuperior/dsmovie/utils/**</exclude>
-					</excludes>
+
 				</configuration>
 				<executions>
 					<execution>

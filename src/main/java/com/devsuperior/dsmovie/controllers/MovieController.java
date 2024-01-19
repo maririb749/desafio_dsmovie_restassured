@@ -23,6 +23,7 @@ import com.devsuperior.dsmovie.services.MovieService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -62,6 +63,7 @@ public class MovieController {
 			@ApiResponse(description = "Forbidden", responseCode = "403"),
 			@ApiResponse(description = "Unprocessable Entity", responseCode = "422") })
 
+	@SecurityRequirement(name = "bearerAuth")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(produces = "application/json")
 	public ResponseEntity<MovieDTO> insert(@Valid @RequestBody MovieDTO dto) {
@@ -77,7 +79,8 @@ public class MovieController {
 			@ApiResponse(description = "Unauthorized", responseCode = "401"),
 			@ApiResponse(description = "Forbidden", responseCode = "403"),
 			@ApiResponse(description = "Unprocessable Entity", responseCode = "422") })
-
+	
+	@SecurityRequirement(name = "bearerAuth")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping(value = "/{id}", produces = "application/json")
 	public ResponseEntity<MovieDTO> update(@PathVariable Long id, @Valid @RequestBody MovieDTO dto) {
@@ -95,6 +98,8 @@ public class MovieController {
 			@ApiResponse(description = "Not Found", responseCode = "404"),
 			@ApiResponse(description = "Unprocessable Entity", responseCode = "422") })
 
+	
+	@SecurityRequirement(name = "bearerAuth")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping(value = "/{id}", produces = "application/json")
 	public ResponseEntity<MovieDTO> delete(@PathVariable Long id) {

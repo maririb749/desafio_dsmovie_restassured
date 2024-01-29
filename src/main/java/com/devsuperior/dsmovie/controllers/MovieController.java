@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.devsuperior.dsmovie.dto.MovieDTO;
+import com.devsuperior.dsmovie.dto.MovieGenreDTO;
 import com.devsuperior.dsmovie.services.MovieService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,7 +29,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/movies")
+@RequestMapping(value = "movies")
 @Tag(name = "Movies", description = "Controller for Movie")
 public class MovieController {
 
@@ -44,6 +45,12 @@ public class MovieController {
 	public Page<MovieDTO> findAll(@RequestParam(value = "title", defaultValue = "") String title, Pageable pageable) {
 		return service.findAll(title, pageable);
 	}
+	
+	@GetMapping(produces = "application/vdn.devsuperior.dsmovie-v1+json")
+	public Page<MovieGenreDTO> findAllv1(@RequestParam(value = "title", defaultValue = "") String title,Pageable pageable) {
+		return service.findAllMovieGenre(title, pageable);
+	}
+
 
 	@Operation(description = "Get movie by id", summary = "Get movie by id", responses = {
 			@ApiResponse(description = "Ok", responseCode = "200"),
@@ -55,6 +62,11 @@ public class MovieController {
 	public MovieDTO findById(@PathVariable Long id) {
 		return service.findById(id);
 	}
+	@GetMapping(value = "/{id}", produces = "application/vnd.devsuperior.dsmovie-v1+json")
+	public MovieGenreDTO findByIdv1(@PathVariable Long id) {
+	    return service.findByIdMovieGenre(id);
+	}
+
 
 	@Operation(description = "Create a new movie", summary = "Create a new movie", responses = {
 			@ApiResponse(description = "Created", responseCode = "201"),

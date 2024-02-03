@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.devsuperior.dsmovie.controllers.MovieController;
 import com.devsuperior.dsmovie.dto.MovieDTO;
 import com.devsuperior.dsmovie.dto.MovieGenreDTO;
 import com.devsuperior.dsmovie.entities.MovieEntity;
@@ -28,15 +29,15 @@ public class MovieService {
 	@Transactional(readOnly = true)
 	public Page<MovieDTO> findAll(String title, Pageable pageable) {
 		Page<MovieEntity> result = repository.searchByTitle(title, pageable);
-		return result.map(x -> new MovieDTO(x));
+		return result.map(
+				x -> new MovieDTO(x).add(linkTo(methodOn(MovieController.class).findAll(title, pageable)).withSelfRel())
+						.add(linkTo(methodOn(MovieController.class).findById(x.getId())).withRel("Get movie by id")));
 	}
-	
+
 	public Page<MovieGenreDTO> findAllMovieGenre(String title, Pageable pageable) {
-	    Page<MovieEntity> result = repository.searchByTitle(title, pageable);
-	    return result.map(x -> new MovieGenreDTO(x)); 
+		Page<MovieEntity> result = repository.searchByTitle(title, pageable);
+		return result.map(x -> new MovieGenreDTO(x));
 	}
-
-
 
 	@Transactional(readOnly = true)
 	public MovieDTO findById(Long id) {
@@ -44,7 +45,7 @@ public class MovieService {
 				.orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));
 		return new MovieDTO(result);
 	}
-	
+
 	@Transactional(readOnly = true)
 	public MovieGenreDTO findByIdMovieGenre(Long id) {
 		MovieEntity result = repository.findById(id)
